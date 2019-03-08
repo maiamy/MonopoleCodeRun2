@@ -1,0 +1,12 @@
+\section{Monopole Tracking}
+
+Due to the large value of the magnetic charge quantum, the track left by a magnetic monopole traveling through the tracking chamber would be much more highly ionized than a normal track.  Addtionally, the particle would experience a force along the magnetic field, causing the track to curve toward the positive or negative Z direction.  Because of these two properties, a monopole track would be easily distinguishable from an ordinary track.  However, because of the curvature in Z, the standard tracking algorithm is extremely inefficient at identifying monopole tracks.  We have developed an algorithm that finds monopole tracks by combining multiple straight tracks into a single curved track.
+
+\subsection{Track Combining}
+
+The Track Combiner algorithm combines tracks from the standard tracking algorithm into sets of tracks that could have come from the same (possibly magnetically charged) particle.  Starting with a particular track, it scans through all tracks in the event that have not yet been assigned to a set.  Tracks with $p_T<5$ GeV are ignored.  A track is assigned to this set if its tracking hits satisfy two separate fits when combined with the other tracking hits in the set.  The first fit is to a circle in the $xy$ plane, as is standard for the projection of a helical track into this plane.  The second fit is to a parabola in the $rz$ plane, as would be expected for a particle that feels a force along the direction of the magnetic field.  Note that a track from a particle with magnetic charge 0 would satisfy these fits, (with the parabola degenerating into a straight line) as would a particle with electric charge 0. (with the circle degenerating into a straight line)
+
+The six parameters from the two fits are saved as properties of the track set, and are used to extrapolate the track to the calorimeter.  The $xy$ fit results in the usual track parameters $\phi_0$, $d_0$ and $q/p_t$, while the $rz$ fit results in the usual $z_0$ and $\eta$ along with the magnetic curvature $d^2 z/dr^2$.
+
+Once the track sets are established, the ionization of each set can be measured using the standard techniques for measuring $dE/dx$.  The usual harmonic average of $dE/dx$ hits weights low-energy hits much more than high-energy hits, and is therefore unsuitable for measuring highly-ionizing particles.  We instead measure the fraction of $dE/dx$ hits that are saturated, which provides very good separation for the highly-ionizing monopoles.
+
